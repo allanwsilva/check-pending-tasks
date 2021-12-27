@@ -1,5 +1,5 @@
-name: 'Wait'
-description: 'Wait a designated number of milliseconds'
+name: 'Check for pending tasks'
+description: 'Check for Open PRs, etc'
 inputs:
   milliseconds:  # id of input
     description: 'number of milliseconds to wait'
