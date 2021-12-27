@@ -15,7 +15,7 @@ module.exports = (app) => {
         app.log("Pull Request event triggered");
 
         sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-        const msg = {
+        let msg = {
             to: 'allanwsilva@gmail.com',
             from: 'github@github.com',
             subject: 'Check out these Pending Github tasks',

@@ -4,34 +4,41 @@ require('./sourcemap-register.js');/******/ (() => { // webpackBootstrap
 /***/ 71547:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
+const sgMail = __nccwpck_require__(46686);
+
+(__nccwpck_require__(12437).config)();
+
 /**
  * @param {import('probot').Probot} app
  */
 module.exports = (app) => {
-    app.log("Yay! The app was loaded!");
+    app.log("The app was loaded!");
 
-    app.on("issues.opened", async (context) => {
+    app.on("pull_request.opened", async (context) => {
 
-        const sgMail = __nccwpck_require__(46686);
+        console.log(context);
+
+        app.log("Pull Request event triggered");
+
         sgMail.setApiKey(process.env.SENDGRID_API_KEY);
         const msg = {
             to: 'allanwsilva@gmail.com',
-            from: 'github@github.com', // Use the email address or domain you verified above
+            from: 'github@github.com',
             subject: 'Check out these Pending Github tasks',
-            text: 'and easy to do anywhere, even with Node.js',
-            html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+            html: '<strong>and easy to do anywhere, even with Node.js</strong>'
         };
-        //ES6
-        sgMail
-            .send(msg)
-            .then(() => {
-            }, error => {
-                console.error(error);
-
-                if (error.response) {
-                    console.error(error.response.body)
-                }
-            });
+        // sgMail
+        //     .send(msg)
+        //     .then(() => {
+        //         app.log('ALL GOOD!!!');
+        //     }, error => {
+        //         console.error(error);
+        //
+        //         if (error.response) {
+        //             console.error(error.response.body)
+        //         }
+        //     });
+        console.log('blah');
         return context.octokit.issues.createComment(
             context.issue({body: "Hello, World!"})
         );
@@ -36329,6 +36336,7 @@ type DotenvConfigOutput = {
 
 const fs = __nccwpck_require__(57147)
 const path = __nccwpck_require__(71017)
+const os = __nccwpck_require__(22037)
 
 function log (message /*: string */) {
   console.log(`[dotenv][DEBUG] ${message}`)
@@ -36337,7 +36345,7 @@ function log (message /*: string */) {
 const NEWLINE = '\n'
 const RE_INI_KEY_VAL = /^\s*([\w.-]+)\s*=\s*(.*)?\s*$/
 const RE_NEWLINES = /\\n/g
-const NEWLINES_MATCH = /\n|\r|\r\n/
+const NEWLINES_MATCH = /\r\n|\n|\r/
 
 // Parses src into an Object
 function parse (src /*: string | Buffer */, options /*: ?DotenvParseOptions */) /*: DotenvParseOutput */ {
@@ -36379,6 +36387,10 @@ function parse (src /*: string | Buffer */, options /*: ?DotenvParseOptions */) 
   return obj
 }
 
+function resolveHome (envPath) {
+  return envPath[0] === '~' ? path.join(os.homedir(), envPath.slice(1)) : envPath
+}
+
 // Populates process.env from .env file
 function config (options /*: ?DotenvConfigOptions */) /*: DotenvConfigOutput */ {
   let dotenvPath = path.resolve(process.cwd(), '.env')
@@ -36387,7 +36399,7 @@ function config (options /*: ?DotenvConfigOptions */) /*: DotenvConfigOutput */ 
 
   if (options) {
     if (options.path != null) {
-      dotenvPath = options.path
+      dotenvPath = resolveHome(options.path)
     }
     if (options.encoding != null) {
       encoding = options.encoding
@@ -79211,7 +79223,7 @@ const resolve_app_function_1 = __nccwpck_require__(32350);
  * @param appFnOrArgv set to either a probot application function: `(app) => { ... }` or to process.argv
  */
 async function run(appFnOrArgv, additionalOptions) {
-    (__nccwpck_require__(12437).config)();
+    (__nccwpck_require__(26402).config)();
     const envOptions = read_env_options_1.readEnvOptions(additionalOptions === null || additionalOptions === void 0 ? void 0 : additionalOptions.env);
     const cliOptions = Array.isArray(appFnOrArgv)
         ? read_cli_options_1.readCliOptions(appFnOrArgv)
@@ -79459,6 +79471,126 @@ exports.VERSION = void 0;
 // The version is set automatically before publish to npm
 exports.VERSION = "11.4.1";
 //# sourceMappingURL=version.js.map
+
+/***/ }),
+
+/***/ 26402:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+/* @flow */
+/*::
+
+type DotenvParseOptions = {
+  debug?: boolean
+}
+
+// keys and values from src
+type DotenvParseOutput = { [string]: string }
+
+type DotenvConfigOptions = {
+  path?: string, // path to .env file
+  encoding?: string, // encoding of .env file
+  debug?: string // turn on logging for debugging purposes
+}
+
+type DotenvConfigOutput = {
+  parsed?: DotenvParseOutput,
+  error?: Error
+}
+
+*/
+
+const fs = __nccwpck_require__(57147)
+const path = __nccwpck_require__(71017)
+
+function log (message /*: string */) {
+  console.log(`[dotenv][DEBUG] ${message}`)
+}
+
+const NEWLINE = '\n'
+const RE_INI_KEY_VAL = /^\s*([\w.-]+)\s*=\s*(.*)?\s*$/
+const RE_NEWLINES = /\\n/g
+const NEWLINES_MATCH = /\n|\r|\r\n/
+
+// Parses src into an Object
+function parse (src /*: string | Buffer */, options /*: ?DotenvParseOptions */) /*: DotenvParseOutput */ {
+  const debug = Boolean(options && options.debug)
+  const obj = {}
+
+  // convert Buffers before splitting into lines and processing
+  src.toString().split(NEWLINES_MATCH).forEach(function (line, idx) {
+    // matching "KEY' and 'VAL' in 'KEY=VAL'
+    const keyValueArr = line.match(RE_INI_KEY_VAL)
+    // matched?
+    if (keyValueArr != null) {
+      const key = keyValueArr[1]
+      // default undefined or missing values to empty string
+      let val = (keyValueArr[2] || '')
+      const end = val.length - 1
+      const isDoubleQuoted = val[0] === '"' && val[end] === '"'
+      const isSingleQuoted = val[0] === "'" && val[end] === "'"
+
+      // if single or double quoted, remove quotes
+      if (isSingleQuoted || isDoubleQuoted) {
+        val = val.substring(1, end)
+
+        // if double quoted, expand newlines
+        if (isDoubleQuoted) {
+          val = val.replace(RE_NEWLINES, NEWLINE)
+        }
+      } else {
+        // remove surrounding whitespace
+        val = val.trim()
+      }
+
+      obj[key] = val
+    } else if (debug) {
+      log(`did not match key and value when parsing line ${idx + 1}: ${line}`)
+    }
+  })
+
+  return obj
+}
+
+// Populates process.env from .env file
+function config (options /*: ?DotenvConfigOptions */) /*: DotenvConfigOutput */ {
+  let dotenvPath = path.resolve(process.cwd(), '.env')
+  let encoding /*: string */ = 'utf8'
+  let debug = false
+
+  if (options) {
+    if (options.path != null) {
+      dotenvPath = options.path
+    }
+    if (options.encoding != null) {
+      encoding = options.encoding
+    }
+    if (options.debug != null) {
+      debug = true
+    }
+  }
+
+  try {
+    // specifying an encoding returns a string instead of a buffer
+    const parsed = parse(fs.readFileSync(dotenvPath, { encoding }), { debug })
+
+    Object.keys(parsed).forEach(function (key) {
+      if (!Object.prototype.hasOwnProperty.call(process.env, key)) {
+        process.env[key] = parsed[key]
+      } else if (debug) {
+        log(`"${key}" is already defined in \`process.env\` and will not be overwritten`)
+      }
+    })
+
+    return { parsed }
+  } catch (e) {
+    return { error: e }
+  }
+}
+
+module.exports.config = config
+module.exports.parse = parse
+
 
 /***/ }),
 
