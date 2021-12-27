@@ -1,6 +1,6 @@
 {
   "name": "check-pending-tasks",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "JavaScript Action Template",
   "main": "index.js",
   "scripts": {
