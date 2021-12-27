@@ -8,7 +8,7 @@ require('dotenv').config();
 module.exports = (app) => {
     app.log("The app was loaded!");
 
-    app.on("issue.opened", async (context) => {
+    app.on("issues.opened", async (context) => {
 
         console.log(context);
 
