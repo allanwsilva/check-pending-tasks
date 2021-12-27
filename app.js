@@ -8,16 +8,18 @@ require('dotenv').config();
 module.exports = (app) => {
     app.log("The app was loaded!");
 
-    app.on("pull_request.opened", async (context) => {
+    app.on("issue.opened", async (context) => {
 
         console.log(context);
 
-        app.log("Pull Request event triggered");
+        app.log("Issue event triggered");
+
+        console.log(process.env.SENDGRID_API_KEY);
 
         sgMail.setApiKey(process.env.SENDGRID_API_KEY);
         let msg = {
             to: 'allanwsilva@gmail.com',
-            from: 'github@github.com',
+            from: 'siscredor@siscredor.com.br',
             subject: 'Check out these Pending Github tasks',
             html: '<strong>and easy to do anywhere, even with Node.js</strong>'
         };
