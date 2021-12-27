@@ -1,31 +1,38 @@
+const sgMail = require("@sendgrid/mail");
+
+require('dotenv').config();
+
 /**
  * @param {import('probot').Probot} app
  */
 module.exports = (app) => {
-    app.log("Yay! The app was loaded!");
+    app.log("The app was loaded!");
 
-    app.on("issues.opened", async (context) => {
+    app.on("pull_request.opened", async (context) => {
 
-        const sgMail = require('@sendgrid/mail');
+        console.log(context);
+
+        app.log("Pull Request event triggered");
+
         sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-        const msg = {
+        let msg = {
             to: 'allanwsilva@gmail.com',
-            from: 'github@github.com', // Use the email address or domain you verified above
+            from: 'github@github.com',
             subject: 'Check out these Pending Github tasks',
-            text: 'and easy to do anywhere, even with Node.js',
-            html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+            html: '<strong>and easy to do anywhere, even with Node.js</strong>'
         };
-        //ES6
-        sgMail
-            .send(msg)
-            .then(() => {
-            }, error => {
-                console.error(error);
-
-                if (error.response) {
-                    console.error(error.response.body)
-                }
-            });
+        // sgMail
+        //     .send(msg)
+        //     .then(() => {
+        //         app.log('ALL GOOD!!!');
+        //     }, error => {
+        //         console.error(error);
+        //
+        //         if (error.response) {
+        //             console.error(error.response.body)
+        //         }
+        //     });
+        console.log('blah');
         return context.octokit.issues.createComment(
             context.issue({body: "Hello, World!"})
         );

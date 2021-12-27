@@ -1,10 +1,15 @@
 name: 'Check for pending tasks'
-description: 'Check for Open PRs, etc'
+description: 'Check for Open PRs, etc - sends reminder emails via Sendgrid'
 inputs:
-  milliseconds:  # id of input
-    description: 'number of milliseconds to wait'
+  from:
+    description: 'verified sender address in Sendgrid'
     required: true
-    default: '1000'
+    type: string
+  sendgridKey:
+    description: 'Sendgrid API Key'
+    required: true
+    type: string
+
 outputs:
   time: # output will be available to future steps
     description: 'The current time after waiting'
