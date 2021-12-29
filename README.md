@@ -17,12 +17,17 @@ as an environment variable too (see details below).
 You can now consume the action:
 
 ```yaml
-uses: allanwsilva/check-pending-tasks@v1
+uses: allanwsilva/check-pending-tasks@v1.0.0
 with:
   sendgrid-from-email: valid@email.com
+  email-subject: 'Check out these Github tasks assigned to you that are still pending'
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
 ```
+> **sendgrid-from-email:** Validated Sendgrid Email (required)
+
+> **email-subject:** Email subject (optional) 
+
 
 :rocket: :rocket: :rocket:

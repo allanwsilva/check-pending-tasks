@@ -1,6 +1,6 @@
 {
   "name": "check-pending-tasks",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "Sends emails to users in case there are \"Open\" Issues or Pull Requests assigned to them, via Sendgrid",
   "main": "index.js",
   "scripts": {
