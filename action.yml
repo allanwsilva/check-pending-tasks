@@ -1,20 +1,15 @@
-name: 'Check for pending tasks'
-description: 'Check for Open PRs, etc - sends reminder emails via Sendgrid'
+name: 'Check for Pending Tasks in Github'
+description: 'Sends emails to users in case there are "Open" Issues or Pull Requests assigned to them, via Sendgrid'
 inputs:
-  from:
-    description: 'verified sender address in Sendgrid'
+  sendgrid-from-email:
+    description: 'Validated Sendgrid Email'
     required: true
-    type: string
-  sendgridKey:
-    description: 'Sendgrid API Key'
-    required: true
-    type: string
-
-outputs:
-  time: # output will be available to future steps
-    description: 'The current time after waiting'
+  email-subject:
+    description: 'Email subject'
+    required: false
+    default: 'Check out these Github tasks assigned to you that are still pending'
 runs:
-  using: 'node12'
+  using: 'node16'
   main: 'dist/index.js'
 branding:
   icon: "bell"
