@@ -10,7 +10,7 @@ inputs:
     default: 'Check out these Github tasks assigned to you that are still pending'
 runs:
   using: 'node16'
-  main: 'index.js'
+  main: 'dist/index.js'
 branding:
   icon: "bell"
   color: yellow
