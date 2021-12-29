@@ -1,7 +1,7 @@
 {
   "name": "check-pending-tasks",
   "version": "0.0.2",
-  "description": "JavaScript Action Template",
+  "description": "Sends emails to users in case there are \"Open\" Issues or Pull Requests assigned to them, via Sendgrid",
   "main": "index.js",
   "scripts": {
     "lint": "eslint .",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/javascript-action.git"
+    "url": "git+https://github.com/allanwsilva/check-pending-tasks.git"
   },
   "keywords": [
     "GitHub",
@@ -21,14 +21,14 @@
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/actions/javascript-action/issues"
+    "url": "https://github.com/allanwsilva/check-pending-tasks/issues"
   },
-  "homepage": "https://github.com/actions/javascript-action#readme",
+  "homepage": "https://github.com/allanwsilva/check-pending-tasks#readme",
   "dependencies": {
     "@actions/core": "^1.6.0",
-    "@probot/adapter-github-actions": "^3.0.1",
+    "@actions/github": "^1.1.0",
     "@sendgrid/mail": "^7.6.0",
-    "dotenv": "^10.0.0"
+    "octokit": "^1.7.1"
   },
   "devDependencies": {
     "@vercel/ncc": "^0.33.1",
