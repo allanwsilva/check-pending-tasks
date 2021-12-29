@@ -47870,7 +47870,7 @@ function initialValidation() {
         throw {message: '"sendgrid-from-email" input value not set'};
     }
 
-    const regexp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const regexp = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/;
     if (!regexp.test(email)) {
         throw {message: '"sendgrid-from-email" input value is not a valid email'};
     }
