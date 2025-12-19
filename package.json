@@ -31,7 +31,7 @@
     "octokit": "^5.0.5"
   },
   "devDependencies": {
-    "@vercel/ncc": "^0.33.1",
+    "@vercel/ncc": "^0.36.1",
     "eslint": "^8.35.0",
     "jest": "^27.4.5"
   }
