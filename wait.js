@@ -1,4 +1,4 @@
-let wait = function (milliseconds) {
+const wait = function (milliseconds) {
   return new Promise((resolve) => {
     if (typeof milliseconds !== 'number') {
       throw new Error('milliseconds not a number');
@@ -7,4 +7,4 @@ let wait = function (milliseconds) {
   });
 };
 
-module.exports = wait;
+export default wait;
