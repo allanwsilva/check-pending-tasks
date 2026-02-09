@@ -2,11 +2,15 @@
   "name": "check-pending-tasks",
   "version": "1.0.0",
   "description": "Sends emails to users in case there are \"Open\" Issues or Pull Requests assigned to them, via Sendgrid",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
   "main": "index.js",
   "scripts": {
     "lint": "eslint .",
     "prepare": "ncc build index.js -o dist --source-map --license licenses.txt",
-    "test": "jest",
+    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest",
     "all": "npm run lint && npm run prepare && npm run test"
   },
   "repository": {
@@ -32,6 +36,7 @@
   },
   "devDependencies": {
     "@vercel/ncc": "^0.38.4",
+    "cross-env": "^10.1.0",
     "eslint": "^10.0.0",
     "jest": "^30.2.0"
   }

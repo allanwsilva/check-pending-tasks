@@ -1,7 +1,7 @@
-const core = require('@actions/core');
-const github = require('@actions/github');
-const sgMail = require("@sendgrid/mail");
-const {Octokit} = require("octokit");
+import * as core from '@actions/core';
+import * as github from '@actions/github';
+import sgMail from '@sendgrid/mail';
+import { Octokit } from 'octokit';
 
 /**
  * https://octokit.github.io/rest.js/v18
