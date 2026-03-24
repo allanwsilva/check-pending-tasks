@@ -1,1 +1,5 @@
-dist/** -diff linguist-generated=true 
+* text=auto eol=lf
+*.js text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
+dist/** linguist-generated=true
